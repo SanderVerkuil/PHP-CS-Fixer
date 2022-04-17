@@ -15,21 +15,14 @@ declare(strict_types=1);
 namespace PhpCsFixer\Fixer\Whitespace;
 
 use PhpCsFixer\AbstractFixer;
-use PhpCsFixer\Fixer\ConfigurableFixerInterface;
-use PhpCsFixer\Fixer\Import\OrderedImportsFixer;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
-use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
-use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
-use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
-use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
-use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 
 /**
  * @author Sander Verkuil <s.verkuil@pm.me>
@@ -135,11 +128,11 @@ use Bar;
         }
 
         foreach ($namespacesImports as $uses) {
-            $this->fixUseBlock($uses, $tokens);
+            $this->walkOverUses($uses, $tokens);
         }
     }
 
-    private function fixUseBlock(array $uses, Tokens $tokens)
+    private function walkOverUses(array $uses, Tokens $tokens)
     {
         $lineEnding = $this->whitespacesConfig->getLineEnding();
 
