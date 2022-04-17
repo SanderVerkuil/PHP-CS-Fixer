@@ -117,6 +117,8 @@ List of Available Rules
 
    Putting blank lines between ``use`` statement groups.
 
+   Part of rule sets `@PSR12 <./ruleSets/PSR12.rst>`_ `@PhpCsFixer <./ruleSets/PhpCsFixer.rst>`_ `@Symfony <./ruleSets/Symfony.rst>`_
+
    `Source PhpCsFixer\\Fixer\\Whitespace\\BlankLineBetweenImportGroupsFixer <./../src/Fixer/Whitespace/BlankLineBetweenImportGroupsFixer.php>`_
 -  `braces <./rules/basic/braces.rst>`_
 
