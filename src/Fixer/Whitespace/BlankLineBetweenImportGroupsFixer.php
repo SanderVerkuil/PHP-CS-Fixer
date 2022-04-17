@@ -132,7 +132,7 @@ use Bar;
         }
     }
 
-    private function walkOverUses(array $uses, Tokens $tokens)
+    private function walkOverUses(array $uses, Tokens $tokens): void
     {
         $lineEnding = $this->whitespacesConfig->getLineEnding();
 

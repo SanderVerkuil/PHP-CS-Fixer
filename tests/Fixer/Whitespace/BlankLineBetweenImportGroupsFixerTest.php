@@ -23,7 +23,6 @@ use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
  */
 final class BlankLineBetweenImportGroupsFixerTest extends AbstractFixerTestCase
 {
-
     /**
      * @dataProvider provideFixTypesOrderAndWhitespaceCases
      */
