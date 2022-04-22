@@ -141,6 +141,209 @@ use const some\b\{ConstE};
 use function some\a\{fn_a, fn_b};
 ',
             ],
+            [
+                '<?php
+use Aaa\Ccc;
+use Foo\Zar\Baz;
+#use function some\f\{fn_g, fn_h, fn_i};
+use some\a\{ClassA};
+use some\b\{ClassD, ClassB, ClassC as C};
+use Bar\Biz\Boooz\Bum;
+
+use function some\c\{fn_f};
+
+use some\b\{
+    ClassF,
+    ClassG
+};
+
+use const some\a\{ConstD};
+
+use Some\Cloz;
+
+use function some\a\{fn_x};
+
+/** Import ConstA to do some nice magic */
+use const some\a\{ConstA};
+
+use function some\b\{fn_c, fn_d, fn_e};
+
+use const some\a\{ConstB, ConstC as CC};
+
+use Aaa\Bbb;
+
+use const some\b\{ConstE};
+
+use function some\a\{fn_a, fn_b};
+',
+                '<?php
+use Aaa\Ccc;
+use Foo\Zar\Baz;
+#use function some\f\{fn_g, fn_h, fn_i};
+use some\a\{ClassA};
+use some\b\{ClassD, ClassB, ClassC as C};
+use Bar\Biz\Boooz\Bum;
+use function some\c\{fn_f};
+use some\b\{
+    ClassF,
+    ClassG
+};
+use const some\a\{ConstD};
+use Some\Cloz;
+use function some\a\{fn_x};
+/** Import ConstA to do some nice magic */
+use const some\a\{ConstA};
+use function some\b\{fn_c, fn_d, fn_e};
+use const some\a\{ConstB, ConstC as CC};
+use Aaa\Bbb;
+use const some\b\{ConstE};
+use function some\a\{fn_a, fn_b};
+',
+            ],
+            [
+                '<?php
+/**
+use Aaa\Ccc;
+use Foo\Zar\Baz;
+ */
+use function some\f\{fn_g, fn_h, fn_i};
+
+use some\a\{ClassA};
+use some\b\{ClassD, ClassB, ClassC as C};
+use Bar\Biz\Boooz\Bum;
+
+use function some\c\{fn_f};
+
+use some\b\{
+    ClassF,
+    ClassG
+};
+
+use const some\a\{ConstD};
+
+use Some\Cloz;
+
+// Ignore the following content
+// use function some\a\{fn_x};
+// use const some\a\{ConstA};
+
+use function some\b\{fn_c, fn_d, fn_e};
+
+use const some\a\{ConstB, ConstC as CC};
+
+use Aaa\Bbb;
+
+use const some\b\{ConstE};
+
+use function some\a\{fn_a, fn_b};
+',
+                '<?php
+/**
+use Aaa\Ccc;
+use Foo\Zar\Baz;
+ */
+use function some\f\{fn_g, fn_h, fn_i};
+
+use some\a\{ClassA};
+use some\b\{ClassD, ClassB, ClassC as C};
+use Bar\Biz\Boooz\Bum;
+
+use function some\c\{fn_f};
+
+use some\b\{
+    ClassF,
+    ClassG
+};
+
+use const some\a\{ConstD};
+
+use Some\Cloz;
+// Ignore the following content
+// use function some\a\{fn_x};
+// use const some\a\{ConstA};
+
+use function some\b\{fn_c, fn_d, fn_e};
+
+use const some\a\{ConstB, ConstC as CC};
+
+use Aaa\Bbb;
+
+use const some\b\{ConstE};
+
+use function some\a\{fn_a, fn_b};
+',
+            ],
+            [
+                '<?php
+use Aaa\Ccc;
+
+/*use Foo\Zar\Baz;
+use function some\f\{fn_g, fn_h, fn_i};
+use some\a\{ClassA};
+use some\b\{ClassD, ClassB, ClassC as C};
+use Bar\Biz\Boooz\Bum;
+use function some\c\{fn_f};
+use some\b\{
+    ClassF,
+    ClassG
+};
+use const some\a\{ConstD};
+use Some\Cloz;
+use function some\a\{fn_x};
+use const some\a\{ConstA};
+use function some\b\{fn_c, fn_d, fn_e};
+use const some\a\{ConstB, ConstC as CC};
+use Aaa\Bbb;
+use const some\b\{ConstE};
+*/
+use function some\a\{fn_a, fn_b};
+',
+                '<?php
+use Aaa\Ccc;
+/*use Foo\Zar\Baz;
+use function some\f\{fn_g, fn_h, fn_i};
+use some\a\{ClassA};
+use some\b\{ClassD, ClassB, ClassC as C};
+use Bar\Biz\Boooz\Bum;
+use function some\c\{fn_f};
+use some\b\{
+    ClassF,
+    ClassG
+};
+use const some\a\{ConstD};
+use Some\Cloz;
+use function some\a\{fn_x};
+use const some\a\{ConstA};
+use function some\b\{fn_c, fn_d, fn_e};
+use const some\a\{ConstB, ConstC as CC};
+use Aaa\Bbb;
+use const some\b\{ConstE};
+*/
+use function some\a\{fn_a, fn_b};
+',
+            ],
+            [
+                '<?php
+use Aaa\Ccc;
+
+use function some\a\{fn_a, fn_b};
+use function some\b\{
+    fn_c,
+    fn_d
+};
+',
+                '<?php
+use Aaa\Ccc;
+
+
+
+use function some\a\{fn_a, fn_b};
+use function some\b\{
+    fn_c,
+    fn_d
+};
+',
+            ],
         ];
     }
 }
