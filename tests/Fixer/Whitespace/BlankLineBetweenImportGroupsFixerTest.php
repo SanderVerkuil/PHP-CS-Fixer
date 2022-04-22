@@ -366,6 +366,28 @@ use function some\b\{
 };
 ',
             ],
+            [
+                '<?php
+use Aaa\Ccc;
+
+/** Beginning of line comment as well */use function some\a\{fn_a, fn_b};
+use function some\b\{
+    fn_c,
+    fn_d
+};
+',
+                '<?php
+use Aaa\Ccc;
+
+
+
+/** Beginning of line comment as well */use function some\a\{fn_a, fn_b};
+use function some\b\{
+    fn_c,
+    fn_d
+};
+',
+            ],
         ];
     }
 }
