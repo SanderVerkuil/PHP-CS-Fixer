@@ -29,19 +29,10 @@ use PhpCsFixer\Tokenizer\TokensAnalyzer;
  */
 final class BlankLineBetweenImportGroupsFixer extends AbstractFixer implements WhitespacesAwareFixerInterface
 {
-    /**
-     * @internal
-     */
     private const IMPORT_TYPE_CLASS = 'class';
 
-    /**
-     * @internal
-     */
     private const IMPORT_TYPE_CONST = 'const';
 
-    /**
-     * @internal
-     */
     private const IMPORT_TYPE_FUNCTION = 'function';
 
     /**
@@ -122,10 +113,6 @@ use Bar;
     {
         $tokensAnalyzer = new TokensAnalyzer($tokens);
         $namespacesImports = $tokensAnalyzer->getImportUseIndexes(true);
-
-        if (0 === \count($namespacesImports)) {
-            return;
-        }
 
         foreach ($namespacesImports as $uses) {
             $this->walkOverUses($uses, $tokens);
