@@ -388,6 +388,46 @@ use function some\b\{
 };
 ',
             ],
+            [
+                '<?php
+
+use Some\/**Namespace*/Weird\Be/**ha*/;
+
+use function Other\/**Namespace*/Weird\/**Comments*/have;
+',
+                '<?php
+
+use Some\/**Namespace*/Weird\Be/**ha*/;
+use function Other\/**Namespace*/Weird\/**Comments*/have;
+'
+            ],
+            [
+                '<?php
+
+use /* x */ function /* x */ Psl\Str\trim;
+
+use /* x */ Psl\Str /* x */;
+
+use /* x */ const /* x */ Psl\Str\OTHER_ALPHABET;
+use /* x */ const /* x */ Psl\Str\ALPHABET;
+
+use /* x */ function /* x */ Psl\Str\ /* x */ {
+    /* x */ trim_left /* x */,
+    /* x */ trim_right /* x */,
+};
+',
+                '<?php
+
+use /* x */ function /* x */ Psl\Str\trim;
+use /* x */ Psl\Str /* x */;
+use /* x */ const /* x */ Psl\Str\OTHER_ALPHABET;
+use /* x */ const /* x */ Psl\Str\ALPHABET;
+use /* x */ function /* x */ Psl\Str\ /* x */ {
+    /* x */ trim_left /* x */,
+    /* x */ trim_right /* x */,
+};
+'
+            ],
         ];
     }
 }

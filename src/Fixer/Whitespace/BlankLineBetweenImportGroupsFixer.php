@@ -128,12 +128,14 @@ use Bar;
         for ($i = \count($uses) - 1; $i >= 0; --$i) {
             $index = $uses[$i];
 
-            $startIndex = $tokens->getTokenNotOfKindsSibling($index + 1, 1, [T_WHITESPACE]);
+            $startIndex = $tokens->getTokenNotOfKindsSibling($index + 1, 1, [T_WHITESPACE, T_COMMENT, T_DOC_COMMENT]);
             $endIndex = $tokens->getNextTokenOfKind($startIndex, [';', [T_CLOSE_TAG]]);
 
-            if ($tokens[$startIndex]->isGivenKind(CT::T_CONST_IMPORT)) {
+            $token = $tokens[$startIndex];
+
+            if ($token->isGivenKind(CT::T_CONST_IMPORT)) {
                 $type = self::IMPORT_TYPE_CONST;
-            } elseif ($tokens[$startIndex]->isGivenKind(CT::T_FUNCTION_IMPORT)) {
+            } elseif ($token->isGivenKind(CT::T_FUNCTION_IMPORT)) {
                 $type = self::IMPORT_TYPE_FUNCTION;
             } else {
                 $type = self::IMPORT_TYPE_CLASS;
