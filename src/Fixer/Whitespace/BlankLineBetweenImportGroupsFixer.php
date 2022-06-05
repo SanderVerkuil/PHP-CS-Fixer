@@ -114,38 +114,79 @@ use Bar;
         $tokensAnalyzer = new TokensAnalyzer($tokens);
         $namespacesImports = $tokensAnalyzer->getImportUseIndexes(true);
 
-        foreach ($namespacesImports as $uses) {
-            $this->walkOverUses($uses, $tokens);
+        foreach (array_reverse($namespacesImports) as $uses) {
+            $this->walkOverUses($tokens, $uses);
         }
     }
 
-    private function walkOverUses(array $uses, Tokens $tokens): void
+    /**
+     * @param int[] $uses
+     */
+    private function walkOverUses(Tokens $tokens, array $uses): void
     {
-        $lineEnding = $this->whitespacesConfig->getLineEnding();
+        $usesCount = \count($uses);
+
+        if ($usesCount < 2) {
+            return; // nothing to fix
+        }
 
         $previousType = null;
 
-        for ($i = \count($uses) - 1; $i >= 0; --$i) {
+        for ($i = $usesCount - 1; $i >= 0; --$i) {
             $index = $uses[$i];
-
-            $startIndex = $tokens->getTokenNotOfKindsSibling($index + 1, 1, [T_WHITESPACE, T_COMMENT, T_DOC_COMMENT]);
+            $startIndex = $tokens->getNextMeaningfulToken($index + 1);
             $endIndex = $tokens->getNextTokenOfKind($startIndex, [';', [T_CLOSE_TAG]]);
 
-            $token = $tokens[$startIndex];
-
-            if ($token->isGivenKind(CT::T_CONST_IMPORT)) {
+            if ($tokens[$startIndex]->isGivenKind(CT::T_CONST_IMPORT)) {
                 $type = self::IMPORT_TYPE_CONST;
-            } elseif ($token->isGivenKind(CT::T_FUNCTION_IMPORT)) {
+            } elseif ($tokens[$startIndex]->isGivenKind(CT::T_FUNCTION_IMPORT)) {
                 $type = self::IMPORT_TYPE_FUNCTION;
             } else {
                 $type = self::IMPORT_TYPE_CLASS;
             }
 
             if (null !== $previousType && $type !== $previousType) {
-                $tokens->overrideRange($endIndex + 1, $endIndex + 1, [new Token([T_WHITESPACE, $lineEnding.$lineEnding])]);
+                $this->ensureLine($tokens, $endIndex + 1);
             }
 
             $previousType = $type;
         }
+    }
+
+    private function ensureLine(Tokens $tokens, int $index): void
+    {
+        static $lineEnding;
+
+        if (null === $lineEnding) {
+            $lineEnding = $this->whitespacesConfig->getLineEnding();
+            $lineEnding .= $lineEnding;
+        }
+
+        $index = $this->getInsertIndex($tokens, $index);
+
+        if ($tokens[$index]->isWhitespace()) {
+            $tokens[$index] = new Token([T_WHITESPACE, $lineEnding]);
+        } else {
+            $tokens->insertSlices([$index + 1 => [new Token([T_WHITESPACE, $lineEnding])]]);
+        }
+    }
+
+    private function getInsertIndex(Tokens $tokens, int $index): int
+    {
+        $tokensCount = \count($tokens);
+
+        for (; $index < $tokensCount - 1; ++$index) {
+            if (!$tokens[$index]->isWhitespace() && !$tokens[$index]->isComment()) {
+                return $index - 1;
+            }
+
+            $content = $tokens[$index]->getContent();
+
+            if (str_contains($content, "\n")) {
+                return $index;
+            }
+        }
+
+        return $index;
     }
 }

@@ -31,11 +31,10 @@ final class BlankLineBetweenImportGroupsFixerTest extends AbstractFixerTestCase
         $this->doTest($expected, $input);
     }
 
-    public function provideFixTypesOrderAndWhitespaceCases(): array
+    public function provideFixTypesOrderAndWhitespaceCases(): iterable
     {
-        return [
-            [
-                '<?php
+        yield [
+            '<?php
 use Aaa\Ccc;
 use Foo\Zar\Baz;
 use some\a\{ClassA};
@@ -59,7 +58,7 @@ use function some\a\{fn_x};
 use function some\b\{fn_c, fn_d, fn_e};
 use function some\a\{fn_a, fn_b};
 ',
-                '<?php
+            '<?php
 use Aaa\Ccc;
 use Foo\Zar\Baz;
 use some\a\{ClassA};
@@ -81,9 +80,10 @@ use function some\a\{fn_x};
 use function some\b\{fn_c, fn_d, fn_e};
 use function some\a\{fn_a, fn_b};
 ',
-            ],
-            [
-                '<?php
+        ];
+
+        yield [
+            '<?php
 use Aaa\Ccc;
 use Foo\Zar\Baz;
 
@@ -118,7 +118,7 @@ use const some\b\{ConstE};
 
 use function some\a\{fn_a, fn_b};
 ',
-                '<?php
+            '<?php
 use Aaa\Ccc;
 use Foo\Zar\Baz;
 use function some\f\{fn_g, fn_h, fn_i};
@@ -140,9 +140,10 @@ use Aaa\Bbb;
 use const some\b\{ConstE};
 use function some\a\{fn_a, fn_b};
 ',
-            ],
-            [
-                '<?php
+        ];
+
+        yield [
+            '<?php
 use Aaa\Ccc;
 use Foo\Zar\Baz;
 #use function some\f\{fn_g, fn_h, fn_i};
@@ -176,7 +177,7 @@ use const some\b\{ConstE};
 
 use function some\a\{fn_a, fn_b};
 ',
-                '<?php
+            '<?php
 use Aaa\Ccc;
 use Foo\Zar\Baz;
 #use function some\f\{fn_g, fn_h, fn_i};
@@ -199,9 +200,10 @@ use Aaa\Bbb;
 use const some\b\{ConstE};
 use function some\a\{fn_a, fn_b};
 ',
-            ],
-            [
-                '<?php
+        ];
+
+        yield [
+            '<?php
 /**
 use Aaa\Ccc;
 use Foo\Zar\Baz;
@@ -237,7 +239,7 @@ use const some\b\{ConstE};
 
 use function some\a\{fn_a, fn_b};
 ',
-                '<?php
+            '<?php
 /**
 use Aaa\Ccc;
 use Foo\Zar\Baz;
@@ -272,9 +274,10 @@ use const some\b\{ConstE};
 
 use function some\a\{fn_a, fn_b};
 ',
-            ],
-            [
-                '<?php
+        ];
+
+        yield [
+            '<?php
 use Aaa\Ccc;
 
 /*use Foo\Zar\Baz;
@@ -298,7 +301,7 @@ use const some\b\{ConstE};
 */
 use function some\a\{fn_a, fn_b};
 ',
-                '<?php
+            '<?php
 use Aaa\Ccc;
 /*use Foo\Zar\Baz;
 use function some\f\{fn_g, fn_h, fn_i};
@@ -321,9 +324,10 @@ use const some\b\{ConstE};
 */
 use function some\a\{fn_a, fn_b};
 ',
-            ],
-            [
-                '<?php
+        ];
+
+        yield [
+            '<?php
 use Aaa\Ccc;
 
 use function some\a\{fn_a, fn_b};
@@ -332,7 +336,7 @@ use function some\b\{
     fn_d
 };
 ',
-                '<?php
+            '<?php
 use Aaa\Ccc;
 
 
@@ -343,9 +347,10 @@ use function some\b\{
     fn_d
 };
 ',
-            ],
-            [
-                '<?php
+        ];
+
+        yield [
+            '<?php
 use Aaa\Ccc;
 
 use function some\a\{fn_a, fn_b}; // Do this because of reasons
@@ -354,7 +359,7 @@ use function some\b\{
     fn_d
 };
 ',
-                '<?php
+            '<?php
 use Aaa\Ccc;
 
 
@@ -365,9 +370,10 @@ use function some\b\{
     fn_d
 };
 ',
-            ],
-            [
-                '<?php
+        ];
+
+        yield [
+            '<?php
 use Aaa\Ccc;
 
 /** Beginning of line comment as well */use function some\a\{fn_a, fn_b};
@@ -376,7 +382,7 @@ use function some\b\{
     fn_d
 };
 ',
-                '<?php
+            '<?php
 use Aaa\Ccc;
 
 
@@ -387,22 +393,24 @@ use function some\b\{
     fn_d
 };
 ',
-            ],
-            [
-                '<?php
+        ];
+
+        yield [
+            '<?php
 
 use Some\/**Namespace*/Weird\Be/**ha*/;
 
 use function Other\/**Namespace*/Weird\/**Comments*/have;
 ',
-                '<?php
+            '<?php
 
 use Some\/**Namespace*/Weird\Be/**ha*/;
 use function Other\/**Namespace*/Weird\/**Comments*/have;
-'
-            ],
-            [
-                '<?php
+',
+        ];
+
+        yield [
+            '<?php
 
 use /* x */ function /* x */ Psl\Str\trim;
 
@@ -416,7 +424,7 @@ use /* x */ function /* x */ Psl\Str\ /* x */ {
     /* x */ trim_right /* x */,
 };
 ',
-                '<?php
+            '<?php
 
 use /* x */ function /* x */ Psl\Str\trim;
 use /* x */ Psl\Str /* x */;
@@ -426,8 +434,110 @@ use /* x */ function /* x */ Psl\Str\ /* x */ {
     /* x */ trim_left /* x */,
     /* x */ trim_right /* x */,
 };
-'
-            ],
+',
+        ];
+
+        yield 'lots of inserts in same namespace' => [
+            '<?php
+namespace A\B6 {
+    use C1\B1;
+
+use const C6\Z1;
+
+use C2\B2;
+
+use const C7\Z2;
+
+use C3\B3;
+
+use const C8\Z3;
+
+use C4\B4;
+
+use const C9\Z4;
+
+use C5\B5;
+
+use const C0\Z5;
+}
+            ',
+            '<?php
+namespace A\B6 {
+    use C1\B1;use const C6\Z1;
+    use C2\B2;use const C7\Z2;
+    use C3\B3;use const C8\Z3;
+    use C4\B4;use const C9\Z4;
+    use C5\B5;use const C0\Z5;
+}
+            ',
+        ];
+
+        yield 'lots of inserts in multiple namespaces' => [
+            '<?php
+namespace A\B1 {
+    use C\B;
+
+use const C\Z;
+}
+namespace A\B2 {
+    use C\B;
+
+use const C\Z;
+}
+namespace A\B3 {
+    use C\B;
+
+use const C\Z;
+}
+namespace A\B4 {
+    use C\B;
+
+use const C\Z;
+}
+namespace A\B5 {
+    use C\B;
+
+use const C\Z;
+}
+            ',
+            '<?php
+namespace A\B1 {
+    use C\B;use const C\Z;
+}
+namespace A\B2 {
+    use C\B;use const C\Z;
+}
+namespace A\B3 {
+    use C\B;use const C\Z;
+}
+namespace A\B4 {
+    use C\B;use const C\Z;
+}
+namespace A\B5 {
+    use C\B;use const C\Z;
+}
+            ',
+        ];
+
+        yield [
+            '<?php use A\B;    /*1*/
+
+use const C\D;',
+            '<?php use A\B;    /*1*/      use const C\D;',
+        ];
+
+        yield [
+            '<?php
+namespace Foo;
+use A\B; /* foo */  /* A */ /* B */  # X
+
+use const C\D; // bar
+',
+            '<?php
+namespace Foo;
+use A\B; /* foo */  /* A */ /* B */  # X
+use const C\D; // bar
+',
         ];
     }
 }
