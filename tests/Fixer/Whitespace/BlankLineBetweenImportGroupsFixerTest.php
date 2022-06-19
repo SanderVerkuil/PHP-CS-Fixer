@@ -398,20 +398,6 @@ use function some\b\{
         yield [
             '<?php
 
-use Some\/**Namespace*/Weird\Be/**ha*/;
-
-use function Other\/**Namespace*/Weird\/**Comments*/have;
-',
-            '<?php
-
-use Some\/**Namespace*/Weird\Be/**ha*/;
-use function Other\/**Namespace*/Weird\/**Comments*/have;
-',
-        ];
-
-        yield [
-            '<?php
-
 use /* x */ function /* x */ Psl\Str\trim;
 
 use /* x */ Psl\Str /* x */;
@@ -537,6 +523,32 @@ use const C\D; // bar
 namespace Foo;
 use A\B; /* foo */  /* A */ /* B */  # X
 use const C\D; // bar
+',
+        ];
+    }
+
+    /**
+     * @dataProvider provideFixPre80Cases
+     * @requires PHP <8.0
+     */
+    public function testFixPre80(string $expected, string $input = null): void
+    {
+        $this->doTest($expected, $input);
+    }
+
+    public function provideFixPre80Cases(): \Generator
+    {
+        yield [
+            '<?php
+
+use Some\/**Namespace*/Weird\Be/**ha*/;
+
+use function Other\/**Namespace*/Weird\/**Comments*/have;
+',
+            '<?php
+
+use Some\/**Namespace*/Weird\Be/**ha*/;
+use function Other\/**Namespace*/Weird\/**Comments*/have;
 ',
         ];
     }

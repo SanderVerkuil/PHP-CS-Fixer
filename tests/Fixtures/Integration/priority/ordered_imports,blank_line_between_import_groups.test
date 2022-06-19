@@ -12,7 +12,9 @@ use function bar;
 use Foo;
 use Z;
 
-new Foo();
+$foo = new Foo();
+
+bar($foo);
 
 --INPUT--
 <?php
